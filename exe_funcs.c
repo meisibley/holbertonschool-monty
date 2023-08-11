@@ -28,14 +28,20 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		if (i == 1)
 			value = strdup(token);
 		if (i == 2)
-			fprintf(stderr, "Error: too many argumentts\n");
+			fprintf(stderr, "Error: too many arguments\n");
 		i++;
 		token = strtok(NULL, delim);
 	}
 	if (strncmp(op, "push", 4) == 0)
-		intvalue = handle_value(value, count);
-	else
-		intvalue = 0;
+	{
+		if (!value)
+		{
+			fprintf(stderr, "L%u: usage: push integer\n", count);
+			exit(EXIT_FAILURE);
+		}
+		else
+			intvalue = handle_value(value, count);
+	}
 	i = 0;
 	while (instr[i].opcode != NULL)
 	{
