@@ -35,29 +35,30 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 	if (strncmp(op, "push", strlen(op)) == 0)
 	{
 		if (!value)
-		{
-			fprintf(stderr, "L%u: usage: push integer\n", count);
+		{fprintf(stderr, "L%u: usage: push integer\n", count);
 			exit(EXIT_FAILURE);
 		}
 		else
 			intvalue = handle_value(value, count);
 	}
+	else
+	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 	while (instr[i].opcode != NULL)
 	{
 		if (strncmp(op, instr[i].opcode, strlen(instr[i].opcode)) == 0)
-		{
-			instr[i].f(stack, count);
-			flag = 1;
-			break;
+		{instr[i].f(stack, count);
+			flag = 1, break;
 		}
 		i++;
 	}
-	free(token), free(op), free(value);
 	if (flag == 0) /*op is not in the opcode pool*/
 	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
 		exit(EXIT_FAILURE);
 	}
+	free(token), free(op), free(value);
 }
 
 /**
