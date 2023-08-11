@@ -32,7 +32,7 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		i++;
 		token = strtok(NULL, delim);
 	}
-	if (strncmp(op, "push", 4) == 0)
+	if (strncmp(op, "push", strlen(op)) == 0)
 	{
 		if (!value)
 		{
