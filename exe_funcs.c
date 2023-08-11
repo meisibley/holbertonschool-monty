@@ -55,8 +55,7 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 	}
 	free(token);
 	if (flag == 0) /*op is not in the opcode pool*/
-	{
-		fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
+	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
 		exit(EXIT_FAILURE);
 	}
 }
