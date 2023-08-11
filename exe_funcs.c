@@ -9,8 +9,9 @@
  */
 void executfc(char *line_buf, unsigned int count, stack_t **stack)
 {
-	char *op = NULL, *value = NULL;
-	int i = 0, j = 0, k = 0, flag = 0;
+	char *op = NULL, *value = NULL, *token = NULL;
+	const char *delim = " \0\n\t";
+	int i = 0, flag = 0;
 	instruction_t instr[] = {
 		{"push", func_push},
 		{"pall", func_pall},
@@ -19,24 +20,26 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 
 	if (line_buf == NULL)
 		exit(EXIT_SUCCESS);
-	while (line_buf[i] == ' ' || line_buf[i] == '\t')
-		i++;
-	while (line_buf[i] != ' ' && line_buf[i] != '\t')
+	token = strtok(line_buf, delim);
+	while (token != NULL)
 	{
-		op[j] = line_buf[i];
-		i++, j++;
-	}
-	while (line_buf[i] == ' ' || line_buf[i] == '\t')
+		if (i == 0)
+			op = strdup(token);
+		if (i == 1)
+			value = strdup(token);
+		if (i == 2)
+			fprintf(stderr, "Error: too many argumentts\n");
 		i++;
-	while (line_buf[i] != ' ' && line_buf[i] != '\t' && line_buf[i] != '\0')
-	{value[k] = line_buf[i];
-		k++, i++;
+		token = strtok(NULL, delim);
 	}
-	intvalue = handle_value(value, k, count);
+	if (strncmp(op, "pall", 4) != 0)
+	{
+		intvalue = handle_value(value, count);
+	}
 	i = 0;
 	while (instr[i].opcode != NULL)
 	{
-		if (strcmp(op, instr[i].opcode) == 0)
+		if (strncmp(op, instr[i].opcode, strlen(instr[i].opcode)) == 0)
 		{
 			instr[i].f(stack, count);
 			flag = 1;
@@ -44,9 +47,12 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		}
 		i++;
 	}
+	free(token);
 	if (flag == 0) /*op is not in the opcode pool*/
+	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
-	free(line_buf);
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**
@@ -57,15 +63,15 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
  *
  * Return: nothing
  */
-int handle_value(char *value, int k, unsigned int count)
+int handle_value(char *value, unsigned int count)
 {
 	int i, n = 0, neg = 1, flag = 0;
 
 	if (value[0] == '-')
 		neg = -1;
-	if (value)
+	if (value != NULL)
 	{
-		for (i = 0; i < k; i++)
+		for (i = 0; i < (int)strlen(value) - 1; i++)
 		{
 			if (value[i] < 48 || value[i] > 57)
 				flag = 1;
@@ -74,13 +80,13 @@ int handle_value(char *value, int k, unsigned int count)
 			n = atoi(value);
 		else
 		{
-			fprintf(stderr, "L%u: usage: push integer", count);
+			fprintf(stderr, "L%u: usage: push integer\n", count);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		fprintf(stderr, "L%u: usage: push integer", count);
+		fprintf(stderr, "L%u: usage: push integer\n", count);
 		exit(EXIT_FAILURE);
 	}
 	return (n * neg);
@@ -119,6 +125,12 @@ void func_push(stack_t **stack, unsigned int count)
 		temp->prev = new_node;
 		*stack = new_node;
 	}
+	/*while (new_node)
+	{
+		printf("in func_push, new_node->n: %d\n", new_node->n);
+		new_node = new_node->next;
+	}
+	printf("end of func_push\n");*/
 	free(temp), free(new_node);
 }
 
@@ -132,10 +144,13 @@ void func_push(stack_t **stack, unsigned int count)
 void func_pall(stack_t **stack, unsigned int count)
 {
 	stack_t *node;
-
 	(void)count;
+
+	//printf("in func_pall\n");
 	node = *stack;
-	while(node)
+	if (node == NULL)
+		return;
+	while (node)
 	{
 		printf("%d\n", node->n);
 		node = node->next;

@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	line_size = getline(&line_buf, &buffsize, fp); /*get first line*/
+	/*printf("line_size: %lu, line_buf: %s\n", line_size, line_buf);*/
 	while(line_size >= 0)
 	{
 		line_count++;
