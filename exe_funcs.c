@@ -10,7 +10,7 @@
 void executfc(char *line_buf, unsigned int count, stack_t **stack)
 {
 	char *op = NULL, *value = NULL, *token = NULL;
-	const char *delim = " \0\n\t";
+	const char *delim = " \n\t";
 	int i = 0, flag = 0;
 	instruction_t instr[] = {
 		{"push", func_push}, {"pall", func_pall},
@@ -54,7 +54,7 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		i++;
 	}
 	free(token);
-	if (flag == 0 && op) /*op is not in the opcode pool*/
+	if (flag == 0) /*op is not in the opcode pool*/
 	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
 		exit(EXIT_FAILURE);
 	}
