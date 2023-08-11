@@ -50,7 +50,8 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 	{
 		if (strncmp(op, instr[i].opcode, strlen(instr[i].opcode)) == 0)
 		{instr[i].f(stack, count);
-			flag = 1, break;
+			flag = 1;
+			break;
 		}
 		i++;
 	}
