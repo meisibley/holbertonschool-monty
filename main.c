@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	line_size = getline(&line_buf, &buffsize, fp); /*get first line*/
-	/*printf("line_size: %lu, line_buf: %s\n", line_size, line_buf);*/
 	while(line_size >= 0)
 	{
 		line_count++;
@@ -39,6 +38,7 @@ int main(int argc, char *argv[])
 		line_size = getline(&line_buf, &buffsize, fp); /*get next line*/
 	}
 	free(line_buf);
+	free_stack(stack);
 	fclose(fp);
 	return (0);
 }

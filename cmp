@@ -1,0 +1,2 @@
+#!/bin/bash
+gcc -Wall -Werror -Wextra -pedantic -ggdb3 monty.h *.c -o monty

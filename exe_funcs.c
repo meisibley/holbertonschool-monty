@@ -13,8 +13,8 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 	const char *delim = " \0\n\t";
 	int i = 0, flag = 0;
 	instruction_t instr[] = {
-		{"push", func_push},
-		{"pall", func_pall},
+		{"push", func_push}, {"pall", func_pall},
+		{"pint", func_pint},
 		{NULL, NULL}
 	};
 
@@ -32,10 +32,10 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		i++;
 		token = strtok(NULL, delim);
 	}
-	if (strncmp(op, "pall", 4) != 0)
-	{
+	if (strncmp(op, "push", 4) == 0)
 		intvalue = handle_value(value, count);
-	}
+	else
+		intvalue = 0;
 	i = 0;
 	while (instr[i].opcode != NULL)
 	{
@@ -122,16 +122,9 @@ void func_push(stack_t **stack, unsigned int count)
 	{
 		temp = *stack;
 		new_node->next = temp;
-		temp->prev = new_node;
+		new_node->next->prev = new_node;
 		*stack = new_node;
 	}
-	/*while (new_node)
-	{
-		printf("in func_push, new_node->n: %d\n", new_node->n);
-		new_node = new_node->next;
-	}
-	printf("end of func_push\n");*/
-	free(temp), free(new_node);
 }
 
 /**
@@ -146,7 +139,6 @@ void func_pall(stack_t **stack, unsigned int count)
 	stack_t *node;
 	(void)count;
 
-	//printf("in func_pall\n");
 	node = *stack;
 	if (node == NULL)
 		return;
@@ -155,4 +147,22 @@ void func_pall(stack_t **stack, unsigned int count)
 		printf("%d\n", node->n);
 		node = node->next;
 	}
+}
+
+/**
+ * func_pint - pull the top node and print out
+ * @node: pulled stack node
+ * @count: monty file line number
+ *
+ * Return: nothing
+ */
+void func_pint(stack_t **stack, unsigned int count)
+{
+	stack_t *node;
+	(void)count;
+
+	node = *stack;
+	if (node == NULL)
+		return;
+	printf("%d\n", node->n);
 }
