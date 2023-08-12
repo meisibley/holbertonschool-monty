@@ -80,9 +80,13 @@ void func_pint(stack_t **stack, unsigned int count)
 {
 	stack_t *node;
 
-	(void)count;
+	printf("%d\n", count);
 	node = *stack;
 	if (node == NULL)
-		return;
-	printf("%d\n", node->n);
+	{
+		fprintf(stderr, "L%d: can't pint, stack empty\n", count);
+		exit(EXIT_FAILURE);
+	}
+	else
+		printf("%d\n", node->n);
 }
