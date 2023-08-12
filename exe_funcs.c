@@ -40,7 +40,7 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
  */
 void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 {
-	int i = 0, flag = 0;
+	int i = 0, j = 1, k = 1, flag = 0;
 	instruction_t instr[] = {
 		{"push", func_push}, {"pall", func_pall}, {"pint", func_pint},
 		{"pop", func_pop}, {"swap", func_swap}, {"add", func_add},
@@ -56,16 +56,14 @@ void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 		else
 			intvalue = handle_value(value, count);
 	}
-	else if (strncmp(op, "pall", strlen(op)) == 0 ||
-			strncmp(op, "pint", strlen(op)) == 0 ||
-			strncmp(op, "pop", strlen(op)) == 0 ||
-			strncmp(op, "swap", strlen(op)) == 0 ||
-			strncmp(op, "add", strlen(op)) == 0 ||
-			strncmp(op, "nop", strlen(op)) == 0)
-		intvalue = 0;
 	else
-	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
-		exit(EXIT_FAILURE);
+	{
+		while (instr[j].opcode != NULL && k != 0)
+			k = strncmp(op, instr[j].opcode, strlen(op)), j++;
+		if (k != 0)
+		{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
+			exit(EXIT_FAILURE);
+		}
 	}
 	while (instr[i].opcode != NULL)
 	{
