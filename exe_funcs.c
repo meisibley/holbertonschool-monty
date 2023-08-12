@@ -14,35 +14,26 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 	const char *delim = " \n\t";
 	int i = 0;
 
-	if (line_buf == NULL)
-		exit(EXIT_SUCCESS);
 	token = strtok(line_buf, delim);
 	while (token != NULL)
 	{
 		if (i == 0)
 			op = strdup(token);
 		if (i == 1)
-		{
 			value = strdup(token);
-			if (value == NULL)
-			{
-				fprintf(stderr, "L%d: usage: push integer\n", count);
-				exit(EXIT_FAILURE);
-			}
-		}
 		if (i == 2)
 		{
-			/*tmp = strdup(token);*/
 			fprintf(stderr, "L%d: unknown instruction %s\n", count, op);
+			free(token), free_stack(*stack);
 			exit(EXIT_FAILURE);
 		}
 		i++;
 		token = strtok(NULL, delim);
 	}
 	/*printf("op: %s, value: %s, tmp: %s\n", op, value, tmp);*/
-	exe_opcode(op, value, count, stack);
+	if (i == 1 || i == 2)
+		exe_opcode(op, value, count, stack);
 	free(token);
-	/*free(tmp);*/
 }
 
 /**
