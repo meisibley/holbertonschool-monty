@@ -51,7 +51,7 @@ void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 	int i = 0, flag = 0;
 	instruction_t instr[] = {
 		{"push", func_push}, {"pall", func_pall}, {"pint", func_pint},
-		{"pop", func_pop}, {NULL, NULL}
+		{"pop", func_pop}, {"swap", func_swap}, {NULL, NULL}
 	};
 
 	if (strncmp(op, "push", strlen(op)) == 0)
@@ -65,7 +65,8 @@ void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 	}
 	else if (strncmp(op, "pall", strlen(op)) == 0 ||
 			strncmp(op, "pint", strlen(op)) == 0 ||
-			strncmp(op, "pop", strlen(op)) == 0)
+			strncmp(op, "pop", strlen(op)) == 0 ||
+			strncmp(op, "swap", strlen(op)) == 0)
 		intvalue = 0;
 	else
 	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);

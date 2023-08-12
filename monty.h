@@ -45,6 +45,7 @@ void func_push(stack_t **stack, unsigned int line_count);
 void func_pall(stack_t **stack, unsigned int line_count);
 void func_pint(stack_t **stack, unsigned int line_count);
 void func_pop(stack_t **stack, unsigned int line_count);
+void func_swap(stack_t **stack, unsigned int line_count);
 void free_stack(stack_t *stack);
 
 #endif

@@ -110,3 +110,25 @@ void func_pop(stack_t **stack, unsigned int count)
 	*stack = temp->next;
 	free(temp);
 }
+
+/**
+ * func_swap - swaps the top two elements of the stack
+ * @stack: swaps the top two elements of the stack
+ * @count: monty file line number
+ *
+ * Return: nothing
+ */
+void func_swap(stack_t **stack, unsigned int count)
+{
+	int temp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", count);
+		free_stack(*stack);
+		exit(EXIT_FAILURE);
+	}
+	temp = (*stack)->n;
+	(*stack)->n = (*stack)->next->n;
+	(*stack)->next->n = temp;
+}
