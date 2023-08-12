@@ -26,7 +26,8 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 		if (i == 2)
 		{
 			/*tmp = strdup(token);*/
-			fprintf(stderr, "[Anything]");
+			fprintf(stderr, "L%d: unknown instruction %s\n", count, op);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 		token = strtok(NULL, delim);
