@@ -9,7 +9,7 @@
  */
 void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 {
-	char *op = NULL, *value = NULL, *token = NULL;
+	char *op = NULL, *value = NULL, *token = NULL, *tmp = NULL;
 	const char *delim = " \n\t";
 	int i = 0;
 
@@ -23,12 +23,16 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 		if (i == 1)
 			value = strdup(token);
 		if (i == 2)
+		{
+			tmp = strdup(token);
 			fprintf(stderr, "[Anything]");
+		}
 		i++;
 		token = strtok(NULL, delim);
 	}
+	//printf("op: %s, value: %s, tmp: %s\n", op, value, tmp);
 	exe_opcode(op, value, count, stack);
-	free(token);
+	free(token), free(tmp);
 }
 
 /**
