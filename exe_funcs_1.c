@@ -55,17 +55,6 @@ void free_stack(stack_t *stack)
 	if (!stack)
 		return;
 	temp = stack;
-	/*while (1)
-	{
-		temp = stack->next;
-		free(stack);
-		if (!temp)
-			return;
-		stack = temp->next;
-		free(temp);
-		if (!stack)
-			return;
-	}*/
 	while (stack->prev != NULL)
 		stack = stack->prev;
 	while (stack)

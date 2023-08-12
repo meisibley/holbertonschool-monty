@@ -15,18 +15,12 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 	int i = 0;
 
 	token = strtok(line_buf, delim);
-	while (token != NULL)
+	while (token != NULL && i < 2)
 	{
 		if (i == 0)
 			op = strdup(token);
 		if (i == 1)
 			value = strdup(token);
-		if (i == 2)
-		{
-			fprintf(stderr, "L%d: unknown instruction %s\n", count, op);
-			free(token), free_stack(*stack);
-			exit(EXIT_FAILURE);
-		}
 		i++;
 		token = strtok(NULL, delim);
 	}
