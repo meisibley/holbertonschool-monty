@@ -80,7 +80,6 @@ void func_pint(stack_t **stack, unsigned int count)
 {
 	stack_t *node;
 
-	printf("%d\n", count);
 	node = *stack;
 	if (node == NULL)
 	{
