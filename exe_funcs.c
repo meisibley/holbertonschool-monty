@@ -88,8 +88,8 @@ void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 
 /**
  * func_push - push a new node to stack from beginning
- * @node: pushed stack node
  * @count: monty file line number
+ * @stack: doubly linked list stores pushed values
  *
  * Return: nothing
  */
