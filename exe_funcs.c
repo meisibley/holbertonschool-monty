@@ -28,7 +28,7 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 		token = strtok(NULL, delim);
 	}
 	exe_opcode(op, value, count, stack);
-	free(token), free(op), free(value);
+	free(token);
 }
 
 /**
@@ -76,6 +76,7 @@ void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
 		exit(EXIT_FAILURE);
 	}
+	free(op), free(value);
 }
 
 /**
