@@ -10,19 +10,25 @@
  */
 int handle_value(char *value, unsigned int count)
 {
-	int i, n = 0, neg = 1, flag = 0;
+	int i = 0, n = 0, flag = 0;
 
-	if (value[0] == '-')
-		neg = -1;
+	//printf("value is %s\n", value);
 	if (value != NULL)
 	{
-		for (i = 0; i < (int)strlen(value) - 1; i++)
+		if (value[0] == '-')
+			i = 1;
+	//printf("value is %s, length of value is%lu\n", value, strlen(value));
+		for (; i <= (int)strlen(value) - 1; i++)
 		{
 			if (value[i] < 48 || value[i] > 57)
 				flag = 1;
+	//printf("value is %s, i is %d, flag is %d\n", value, i, flag);
 		}
 		if (flag == 0)
+		{
 			n = atoi(value);
+			//printf("n is %d\n", n);
+		}
 		else
 		{
 			fprintf(stderr, "L%u: usage: push integer\n", count);
@@ -34,7 +40,7 @@ int handle_value(char *value, unsigned int count)
 		fprintf(stderr, "L%u: usage: push integer\n", count);
 		exit(EXIT_FAILURE);
 	}
-	return (n * neg);
+	return (n);
 }
 
 /**
