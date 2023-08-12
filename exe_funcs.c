@@ -22,7 +22,14 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 		if (i == 0)
 			op = strdup(token);
 		if (i == 1)
+		{
 			value = strdup(token);
+			if (!value)
+			{
+				fprintf(stderr, "L%d: usage: push integer\n", count);
+				exit(EXIT_FAILURE);
+			}
+		}
 		if (i == 2)
 		{
 			/*tmp = strdup(token);*/
