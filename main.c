@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	{
 		line_count++;
 		if (line_size > 1)
-			executfc(line_buf, line_count, &stack);
+			tokenize(line_buf, line_count, &stack);
 		free(line_buf);
 		line_buf = NULL;
 		line_size = getline(&line_buf, &buffsize, fp); /*get next line*/

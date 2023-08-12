@@ -7,16 +7,11 @@
  *
  * Return: nothing
  */
-void executfc(char *line_buf, unsigned int count, stack_t **stack)
+void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 {
 	char *op = NULL, *value = NULL, *token = NULL;
 	const char *delim = " \n\t";
-	int i = 0, flag = 0;
-	instruction_t instr[] = {
-		{"push", func_push}, {"pall", func_pall},
-		{"pint", func_pint},
-		{NULL, NULL}
-	};
+	int i = 0;
 
 	if (line_buf == NULL)
 		exit(EXIT_SUCCESS);
@@ -32,6 +27,26 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		i++;
 		token = strtok(NULL, delim);
 	}
+	exe_opcode(op, value, count, stack);
+	free(token), free(op), free(value);
+}
+
+/**
+ * exe_opcode - find match opcode and execute match func
+ * @op: opcode
+ * @value: new node value
+ * @count: monty file line number
+ *
+ * Return: nothing
+ */
+void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
+{
+	int i = 0, flag = 0;
+	instruction_t instr[] = {
+		{"push", func_push}, {"pall", func_pall}, {"pint", func_pint},
+		{NULL, NULL}
+	};
+
 	if (strncmp(op, "push", strlen(op)) == 0)
 	{
 		if (!value)
@@ -41,11 +56,13 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 		else
 			intvalue = handle_value(value, count);
 	}
+	else if (strncmp(op, "pall", strlen(op)) == 0 ||
+			strncmp(op, "pint", strlen(op)) == 0)
+		intvalue = 0;
 	else
 	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
 		exit(EXIT_FAILURE);
 	}
-	i = 0;
 	while (instr[i].opcode != NULL)
 	{
 		if (strncmp(op, instr[i].opcode, strlen(instr[i].opcode)) == 0)
@@ -59,48 +76,9 @@ void executfc(char *line_buf, unsigned int count, stack_t **stack)
 	{fprintf(stderr, "L%u: unknown instruction %s\n", count, op);
 		exit(EXIT_FAILURE);
 	}
-	free(token), free(op), free(value);
 }
 
 /**
- * value_handler - check new node integer value avaliable
- * @value: a character or string, each value between ASCII 48 and 57
- * @k: length of string value
- * @count: monty file line count
- *
- * Return: nothing
- */
-int handle_value(char *value, unsigned int count)
-{
-	int i, n = 0, neg = 1, flag = 0;
-
-	if (value[0] == '-')
-		neg = -1;
-	if (value != NULL)
-	{
-		for (i = 0; i < (int)strlen(value) - 1; i++)
-		{
-			if (value[i] < 48 || value[i] > 57)
-				flag = 1;
-		}
-		if (flag == 0)
-			n = atoi(value);
-		else
-		{
-			fprintf(stderr, "L%u: usage: push integer\n", count);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		fprintf(stderr, "L%u: usage: push integer\n", count);
-		exit(EXIT_FAILURE);
-	}
-	return (n * neg);
-}
-
-/**
- * func_push - push a node into a stack
  * @node: pushed stack node
  * @count: monty file line number
  *
@@ -154,22 +132,4 @@ void func_pall(stack_t **stack, unsigned int count)
 		printf("%d\n", node->n);
 		node = node->next;
 	}
-}
-
-/**
- * func_pint - pull the top node and print out
- * @node: pulled stack node
- * @count: monty file line number
- *
- * Return: nothing
- */
-void func_pint(stack_t **stack, unsigned int count)
-{
-	stack_t *node;
-	(void)count;
-
-	node = *stack;
-	if (node == NULL)
-		return;
-	printf("%d\n", node->n);
 }

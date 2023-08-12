@@ -38,7 +38,8 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_count);
 } instruction_t;
 
-void executfc(char *line_buf, unsigned int line_count, stack_t **stack);
+void tokenize(char *line_buf, unsigned int line_count, stack_t **stack);
+void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack);
 int handle_value(char *value, unsigned int count);
 void func_push(stack_t **stack, unsigned int line_count);
 void func_pall(stack_t **stack, unsigned int line_count);
