@@ -23,7 +23,7 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 		if (i == 1)
 			value = strdup(token);
 		if (i == 2)
-			fprintf(stderr, "\n");
+			fprintf(stderr, "");
 		i++;
 		token = strtok(NULL, delim);
 	}
