@@ -15,7 +15,7 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 	int i = 0;
 
 	token = strtok(line_buf, delim);
-	while (token != NULL && i < 2)
+	while (token != NULL)
 	{
 		if (i == 0)
 			op = strdup(token);
@@ -24,8 +24,7 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 		i++;
 		token = strtok(NULL, delim);
 	}
-	/*printf("op: %s, value: %s, tmp: %s\n", op, value, tmp);*/
-	if (i == 1 || i == 2)
+	if (i > 0)
 		exe_opcode(op, value, count, stack);
 	free(token);
 }

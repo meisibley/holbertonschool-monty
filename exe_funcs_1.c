@@ -11,22 +11,18 @@ int handle_value(char *value, unsigned int count)
 {
 	int i = 0, n = 0, flag = 0;
 
-	/*printf("value is %s\n", value);*/
 	if (value != NULL)
 	{
 		if (value[0] == '-')
 			i = 1;
-	/*printf("value's %s, length of value is%lu\n", value, strlen(value));*/
 		for (; i <= (int)strlen(value) - 1; i++)
 		{
 			if (value[i] < 48 || value[i] > 57)
 				flag = 1;
-	/*printf("value is %s, i is %d, flag is %d\n", value, i, flag);*/
 		}
 		if (flag == 0)
 		{
 			n = atoi(value);
-			/*printf("n is %d\n", n);*/
 		}
 		else
 		{

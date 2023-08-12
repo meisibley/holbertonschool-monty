@@ -34,5 +34,4 @@ void func_nop(stack_t **stack, unsigned int count)
 {
 	(void)stack;
 	(void)count;
-	return;
 }
