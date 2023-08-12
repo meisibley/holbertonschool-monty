@@ -22,3 +22,17 @@ void func_add(stack_t **stack, unsigned int count)
 	*stack = (*stack)->next;
 	(*stack)->prev = NULL;
 }
+
+/**
+ * func_nop - doesn't do anything
+ * @stack: doubly linked list
+ * @count: line number
+ *
+ * Return: nothing
+ */
+void func_nop(stack_t **stack, unsigned int count)
+{
+	(void)stack;
+	(void)count;
+	return;
+}
