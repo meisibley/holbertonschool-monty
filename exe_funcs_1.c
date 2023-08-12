@@ -3,7 +3,6 @@
 /**
  * handle_value - check new node integer value avaliable
  * @value: a character or string, each value between ASCII 48 and 57
- * @k: length of string value
  * @count: monty file line count
  *
  * Return: a integer value
@@ -12,22 +11,22 @@ int handle_value(char *value, unsigned int count)
 {
 	int i = 0, n = 0, flag = 0;
 
-	//printf("value is %s\n", value);
+	/*printf("value is %s\n", value);*/
 	if (value != NULL)
 	{
 		if (value[0] == '-')
 			i = 1;
-	//printf("value is %s, length of value is%lu\n", value, strlen(value));
+	/*printf("value's %s, length of value is%lu\n", value, strlen(value));*/
 		for (; i <= (int)strlen(value) - 1; i++)
 		{
 			if (value[i] < 48 || value[i] > 57)
 				flag = 1;
-	//printf("value is %s, i is %d, flag is %d\n", value, i, flag);
+	/*printf("value is %s, i is %d, flag is %d\n", value, i, flag);*/
 		}
 		if (flag == 0)
 		{
 			n = atoi(value);
-			//printf("n is %d\n", n);
+			/*printf("n is %d\n", n);*/
 		}
 		else
 		{
@@ -71,7 +70,7 @@ void free_stack(stack_t *stack)
 
 /**
  * func_pint - pull the top node and print out value
- * @node: pulled stack node
+ * @stack: pulled stack node
  * @count: monty file line number
  *
  * Return: nothing

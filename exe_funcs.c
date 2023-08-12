@@ -1,15 +1,16 @@
 #include "monty.h"
 
 /**
- * executfc - execute all those functions
+ * tokenize - parse tokens from a reading file line
  * @line_buf: a line reading in the monty file
  * @count: line number of the monty file
+ * @stack: doubly linked list stores pushed values
  *
  * Return: nothing
  */
 void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 {
-	char *op = NULL, *value = NULL, *token = NULL, *tmp = NULL;
+	char *op = NULL, *value = NULL, *token = NULL;
 	const char *delim = " \n\t";
 	int i = 0;
 
@@ -24,15 +25,16 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
 			value = strdup(token);
 		if (i == 2)
 		{
-			tmp = strdup(token);
+			/*tmp = strdup(token);*/
 			fprintf(stderr, "[Anything]");
 		}
 		i++;
 		token = strtok(NULL, delim);
 	}
-	//printf("op: %s, value: %s, tmp: %s\n", op, value, tmp);
+	/*printf("op: %s, value: %s, tmp: %s\n", op, value, tmp);*/
 	exe_opcode(op, value, count, stack);
-	free(token), free(tmp);
+	free(token);
+	/*free(tmp);*/
 }
 
 /**
@@ -40,6 +42,7 @@ void tokenize(char *line_buf, unsigned int count, stack_t **stack)
  * @op: opcode
  * @value: new node value
  * @count: monty file line number
+ * @stack: doubly linked list stores pushed values
  *
  * Return: nothing
  */
@@ -84,6 +87,7 @@ void exe_opcode(char *op, char *value, unsigned int count, stack_t **stack)
 }
 
 /**
+ * func_push - push a new node to stack from beginning
  * @node: pushed stack node
  * @count: monty file line number
  *
@@ -119,8 +123,8 @@ void func_push(stack_t **stack, unsigned int count)
 
 /**
  * func_pall - pull nodes one by one and print out
- * @node: pulled stack node
  * @count: monty file line number
+ * @stack: doubly linked list stores pushed values
  *
  * Return: nothing
  */
