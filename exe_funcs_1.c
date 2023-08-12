@@ -88,3 +88,25 @@ void func_pint(stack_t **stack, unsigned int count)
 	else
 		printf("%d\n", node->n);
 }
+
+/**
+ * func_pop - removes the top element of the stack
+ * @stack: removes the top node of the stack
+ * @count: monty file line number
+ *
+ * Return: nothing
+ */
+void func_pop(stack_t **stack, unsigned int count)
+{
+	stack_t *temp;
+
+	if (*stack == NULL)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", count);
+		free_stack(*stack);
+		exit(EXIT_FAILURE);
+	}
+	temp = *stack;
+	*stack = temp->next;
+	free(temp);
+}
