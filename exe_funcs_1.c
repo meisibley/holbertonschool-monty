@@ -101,8 +101,13 @@ void func_pop(stack_t **stack, unsigned int count)
 		exit(EXIT_FAILURE);
 	}
 	temp = *stack;
-	*stack = temp->next;
-	(*stack)->prev = NULL;
+	if (temp->next == NULL)
+		*stack = NULL;
+	else
+	{
+		*stack = temp->next;
+		(*stack)->prev = NULL;
+	}
 	free(temp);
 }
 
