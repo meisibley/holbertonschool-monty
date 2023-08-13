@@ -10,6 +10,7 @@
 void func_add(stack_t **stack, unsigned int count)
 {
 	int sum;
+	stack_t *node;
 
 	if (*stack == NULL || (*stack)->next == NULL)
 	{
@@ -17,10 +18,12 @@ void func_add(stack_t **stack, unsigned int count)
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
+	node = *stack;
 	sum = (*stack)->n + (*stack)->next->n;
 	(*stack)->next->n = sum;
 	*stack = (*stack)->next;
 	(*stack)->prev = NULL;
+	free(node);
 }
 
 /**
